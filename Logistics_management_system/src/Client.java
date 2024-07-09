@@ -16,14 +16,18 @@ public class Client {
     private JTextField orderIDField;
     private JTextField senderField;
     private JTextField receiverField;
-    private JTextField itemField;  // 假设这是一个表示金额或重量的字段
+    private JTextField itemField;
     private JCheckBox deliveredCheckBox;
     private JTextArea resultArea;
+    private JTextField messageField;
+    private Socket socket;
+    private ObjectOutputStream oos;
+    private ObjectInputStream ois;
 
     public Client() {
         frame = new JFrame("Order Client");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.setSize(500, 300);
+        frame.setSize(500, 400);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -34,28 +38,35 @@ public class Client {
                         JOptionPane.YES_NO_OPTION);
 
                 if (confirmed == JOptionPane.YES_OPTION) {
+                    try {
+                        if (socket != null) {
+                            socket.close();
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     frame.dispose();
-                    System.exit(0); // 退出程序
+                    System.exit(0);
                 }
             }
         });
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(7, 2));
+        panel.setLayout(new GridLayout(0, 2, 10, 10));
 
         panel.add(new JLabel("Order ID:"));
         orderIDField = new JTextField();
         panel.add(orderIDField);
 
-        panel.add(new JLabel("customerName:"));
+        panel.add(new JLabel("Customer Name:"));
         senderField = new JTextField();
         panel.add(senderField);
 
-        panel.add(new JLabel("address:"));
+        panel.add(new JLabel("Address:"));
         receiverField = new JTextField();
         panel.add(receiverField);
 
-        panel.add(new JLabel("money:"));
+        panel.add(new JLabel("Money:"));
         itemField = new JTextField();
         panel.add(itemField);
 
@@ -79,14 +90,74 @@ public class Client {
         queryButton.addActionListener(new QueryButtonListener());
         panel.add(queryButton);
 
+        panel.add(new JLabel("Message:"));
+        messageField = new JTextField();
+        panel.add(messageField);
+
+        JButton sendMessageButton = new JButton("Send Message");
+        sendMessageButton.addActionListener(new SendMessageButtonListener());
+        panel.add(sendMessageButton);
+
         resultArea = new JTextArea();
         resultArea.setEditable(false);
+        resultArea.setLineWrap(true);
+        resultArea.setWrapStyleWord(true);
 
         frame.getContentPane().add(panel, BorderLayout.NORTH);
         frame.getContentPane().add(new JScrollPane(resultArea), BorderLayout.CENTER);
 
         frame.setVisible(true);
+
+        try {
+            socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+            oos = new ObjectOutputStream(socket.getOutputStream());
+            ois = new ObjectInputStream(socket.getInputStream());
+
+            new Thread(new ServerMessageListener()).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(frame, "Error connecting to server", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
+
+    private class ServerMessageListener implements Runnable {
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    String command = (String) ois.readObject();
+                    if ("message".equals(command)) {
+                        String message = (String) ois.readObject();
+                        resultArea.append("Server: " + message + "\n");
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class SendMessageButtonListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String message = messageField.getText();
+
+            if (message.isEmpty()) {
+                JOptionPane.showMessageDialog(frame, "Message field must be filled", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                oos.writeObject("message");
+                oos.writeObject(message);
+                oos.flush();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(frame, "Error sending message to server", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
 
     private class AddButtonListener implements ActionListener {
         @Override
