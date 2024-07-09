@@ -50,5 +50,14 @@ public class OrderManager {
     public List<LogisticsOrder> getOrders() {
         return orders;
     }
+
+    public synchronized LogisticsOrder getOrderById(String orderID) {
+        for (LogisticsOrder order : orders) {
+            if (order.getOrderID().equals(orderID)) {
+                return order;
+            }
+        }
+        return null;
+    }
 }
 
