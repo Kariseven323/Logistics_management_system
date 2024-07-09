@@ -71,13 +71,6 @@ public class Main {
                     orderManager.loadOrdersFromFile(loadFile);
                     break;
                 case 8:
-                    exit = true;
-                    break;
-                case 8:
-                    Date date = new Date();
-                    //测试用例
-                    orderManager.addOrder(new LogisticsOrder("123", "Alice", "Bob",date,99,false));
-                    orderManager.addOrder(new LogisticsOrder("124", "Charlie", "Dave",date,99,false));
                     // 启动服务器线程
                     new Thread(() -> {
                         Server server = new Server(orderManager);
@@ -87,10 +80,9 @@ public class Main {
                     new Thread(() -> {
                         Client client = new Client();
                     }).start();
-                    // 启动客户端线程
-                    new Thread(() -> {
-                        Client client = new Client();
-                    }).start();
+                case 9:
+                    exit = true;
+                    break;
                 default:
                     System.out.println("无效的选择，请重新选择。");
             }
