@@ -26,7 +26,8 @@ public class Server {
     public static void main(String[] args) {
         try {
             OrderManager orderManager = new OrderManager();
-            new Server(12345).start(orderManager);
+            Server server = new Server(12345);
+            server.start(orderManager);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,6 +69,12 @@ class ClientHandler extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                clientSocket.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
