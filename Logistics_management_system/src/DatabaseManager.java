@@ -42,17 +42,6 @@ public class DatabaseManager {
         return false;
     }
 
-    // 根据ID返回客户
-    public ResultSet getCustomer(String customerID) {
-        String sql = "SELECT * FROM Customer WHERE CustomerID = ?";
-        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, customerID);
-            return pstmt.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     // 创建一个新订单
     public boolean addOrder(String orderID, String customerID, String orderDate, String status) {
@@ -130,6 +119,60 @@ public class DatabaseManager {
         return false;
     }
 
+    // 根据ID返回客户
+    public ResultSet getCustomer(String customerID) {
+        String sql = "SELECT * FROM Customer WHERE CustomerID = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.setString(1, customerID);
+            return pstmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getDriver(String driverID) throws SQLException {
+        String query = "SELECT * FROM Driver WHERE DriverID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, driverID);
+        return preparedStatement.executeQuery();
+    }
+
+    public ResultSet getItem(String itemID) throws SQLException {
+        String query = "SELECT * FROM Item WHERE ItemID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, itemID);
+        return preparedStatement.executeQuery();
+    }
+
+
+    public ResultSet getOrder(String orderID) throws SQLException {
+        String query = "SELECT * FROM `Order` WHERE OrderID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, orderID);
+        return preparedStatement.executeQuery();
+    }
+
+    public ResultSet getShipment(String shipmentID) throws SQLException {
+        String query = "SELECT * FROM Shipment WHERE ShipmentID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, shipmentID);
+        return preparedStatement.executeQuery();
+    }
+
+    public ResultSet getVehicle(String vehicleID) throws SQLException {
+        String query = "SELECT * FROM Vehicle WHERE VehicleID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, vehicleID);
+        return preparedStatement.executeQuery();
+    }
+
+    public ResultSet getWarehouse(String warehouseID) throws SQLException {
+        String query = "SELECT * FROM Warehouse WHERE WarehouseID = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, warehouseID);
+        return preparedStatement.executeQuery();
+    }
 
     public static void main(String[] args) {
         DatabaseManager dbManager = new DatabaseManager();
@@ -143,30 +186,30 @@ public class DatabaseManager {
 
         // 创建一个新司机
         if (dbManager.addDriver("0000000001", "John Doe", "555-1234", "A123456")) {
-            System.out.println("Driver added successfully");
+            System.out.println("司机添加成功！");
         } else {
-            System.out.println("Failed to add driver");
+            System.out.println("司机添加失败！");
         }
 
         // 创建一个新车辆
         if (dbManager.addVehicle("0000000001", "ABC123", "Truck", "Available")) {
-            System.out.println("Vehicle added successfully");
+            System.out.println("车辆添加成功！");
         } else {
-            System.out.println("Failed to add vehicle");
+            System.out.println("车辆添加失败！");
         }
 
         // 创建一个新货物
         if (dbManager.addItem("0000000001", "Laptop", 2.5, 15.6, 999.99)) {
-            System.out.println("Item added successfully");
+            System.out.println("货物添加成功！");
         } else {
-            System.out.println("Failed to add item");
+            System.out.println("货物添加失败！");
         }
 
         // 创建一个新仓库
         if (dbManager.addWarehouse("0000000001", "Main Warehouse", "1234 Elm St", 10000)) {
-            System.out.println("Warehouse added successfully");
+            System.out.println("仓库添加成功！");
         } else {
-            System.out.println("Failed to add warehouse");
+            System.out.println("仓库添加失败！");
         }
 
         // 根据客户ID显示客户信息
@@ -177,7 +220,94 @@ public class DatabaseManager {
                 System.out.println("Address: " + rs.getString("Address"));
                 System.out.println("Phone: " + rs.getString("Phone"));
             } else {
-                System.out.println("Customer not found");
+                System.out.println("客户没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取司机信息
+        try (ResultSet rs = dbManager.getDriver("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Driver ID: " + rs.getString("DriverID"));
+                System.out.println("Name: " + rs.getString("Name"));
+                System.out.println("Phone: " + rs.getString("Phone"));
+                System.out.println("License Number: " + rs.getString("LicenseNumber"));
+            } else {
+                System.out.println("司机没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取商品信息
+        try (ResultSet rs = dbManager.getItem("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Item ID: " + rs.getString("ItemID"));
+                System.out.println("Name: " + rs.getString("Name"));
+                System.out.println("Weight: " + rs.getBigDecimal("Weight"));
+                System.out.println("Dimensions: " + rs.getBigDecimal("Dimensions"));
+                System.out.println("Price: " + rs.getBigDecimal("Price"));
+            } else {
+                System.out.println("商品没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取订单信息
+        try (ResultSet rs = dbManager.getOrder("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Order ID: " + rs.getString("OrderID"));
+                System.out.println("Customer ID: " + rs.getString("CustomerID"));
+                System.out.println("Order Date: " + rs.getString("OrderDate"));
+                System.out.println("Status: " + rs.getString("Status"));
+            } else {
+                System.out.println("订单没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取运输信息
+        try (ResultSet rs = dbManager.getShipment("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Shipment ID: " + rs.getString("ShipmentID"));
+                System.out.println("Order ID: " + rs.getString("OrderID"));
+                System.out.println("Driver ID: " + rs.getString("DriverID"));
+                System.out.println("Vehicle ID: " + rs.getString("VehicleID"));
+                System.out.println("Shipment Date: " + rs.getString("ShipmentDate"));
+                System.out.println("Shipment Status: " + rs.getString("ShipmentStatus"));
+            } else {
+                System.out.println("运输没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取车辆信息
+        try (ResultSet rs = dbManager.getVehicle("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Vehicle ID: " + rs.getString("VehicleID"));
+                System.out.println("License Plate: " + rs.getString("LicensePlate"));
+                System.out.println("Type: " + rs.getString("Type"));
+                System.out.println("Status: " + rs.getString("Status"));
+            } else {
+                System.out.println("车辆没有找到");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // 获取仓库信息
+        try (ResultSet rs = dbManager.getWarehouse("0000000001")) {
+            if (rs != null && rs.next()) {
+                System.out.println("Warehouse ID: " + rs.getString("WarehouseID"));
+                System.out.println("Name: " + rs.getString("Name"));
+                System.out.println("Address: " + rs.getString("Address"));
+                System.out.println("Capacity: " + rs.getInt("Capacity"));
+            } else {
+                System.out.println("仓库没有找到");
             }
         } catch (SQLException e) {
             e.printStackTrace();
