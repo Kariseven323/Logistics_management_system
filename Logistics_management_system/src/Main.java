@@ -31,7 +31,11 @@ public class Main {
                 case 1:
                     System.out.print("请输入订单ID：");
                     String addOrderID = scanner.nextLine();
-                    new Thread(new OrderProcessor(orderManager, "add", addOrderID)).start();
+                    System.out.print("请输入客户姓名：");
+                    String clientName = scanner.nextLine();
+                    System.out.print("请输入客户地址：");
+                    String address = scanner.nextLine();
+                    new Thread(new OrderProcessor(orderManager, "add", addOrderID,clientName, address)).start();
                     break;
                 case 2:
                     System.out.print("请输入商品ID：");
@@ -50,12 +54,20 @@ public class Main {
                 case 3:
                     System.out.print("请输入要更新的订单ID：");
                     String updateOrderID = scanner.nextLine();
-                    new Thread(new OrderProcessor(orderManager, "update", updateOrderID)).start();
+                    System.out.print("请输入客户姓名：");
+                    String clientName1 = scanner.nextLine();
+                    System.out.print("请输入客户地址：");
+                    String address1 = scanner.nextLine();
+                    new Thread(new OrderProcessor(orderManager, "update", updateOrderID,clientName1,address1)).start();
                     break;
                 case 4:
                     System.out.print("请输入要删除的订单ID：");
                     String removeOrderID = scanner.nextLine();
-                    new Thread(new OrderProcessor(orderManager, "remove", removeOrderID)).start();
+                    System.out.print("请输入客户姓名：");
+                    String clientName2 = scanner.nextLine();
+                    System.out.print("请输入客户地址：");
+                    String address2 = scanner.nextLine();
+                    new Thread(new OrderProcessor(orderManager, "remove", removeOrderID,clientName2,address2)).start();
                     break;
                 case 5:
                     orderManager.printOrders();
