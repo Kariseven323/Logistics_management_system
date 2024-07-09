@@ -27,7 +27,7 @@ public class OrderManager {
 
     public void printOrders() {
         for (LogisticsOrder order : orders) {
-            System.out.println();
+            System.out.println(order); // 确保 LogisticsOrder 类有合适的 toString() 方法
         }
     }
 
@@ -49,5 +49,30 @@ public class OrderManager {
 
     public List<LogisticsOrder> getOrders() {
         return orders;
+    }
+}
+
+// 确保 LogisticsOrder 类实现 Serializable 接口
+class LogisticsOrder implements Serializable {
+    private static final long serialVersionUID = 1L; // 建议添加这个字段
+    private String orderID;
+    private String customer;
+    private String address;
+    private java.util.Date orderDate;
+    private double amount;
+    private boolean delivered;
+
+    // 构造方法、getter 和 setter 方法
+
+    @Override
+    public String toString() {
+        return "LogisticsOrder{" +
+                "orderID='" + orderID + '\'' +
+                ", customer='" + customer + '\'' +
+                ", address='" + address + '\'' +
+                ", orderDate=" + orderDate +
+                ", amount=" + amount +
+                ", delivered=" + delivered +
+                '}';
     }
 }
