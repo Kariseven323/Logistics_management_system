@@ -23,23 +23,47 @@ public class LogisticsOrder implements Serializable {
     }
 
     // Getters and Setters
-    public String getOrderID() { return orderID; }
-    public void setOrderID(String orderID) { this.orderID = orderID; }
+    public String getOrderID() {
+        return orderID;
+    }
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
 
-    public String getCustomerName() { return customerName; }
-    public void setCustomerName(String customerName) { this.customerName = customerName; }
+    public String getCustomerName() {
+        return customerName;
+    }
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public String getAddress() {
+        return address;
+    }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public Date getOrderDate() { return orderDate; }
-    public void setOrderDate(Date orderDate) { this.orderDate = orderDate; }
+    public Date getOrderDate() {
+        return orderDate;
+    }
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
 
-    public double getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(double totalAmount) { this.totalAmount = totalAmount; }
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
-    public boolean isDelivered() { return delivered; }
-    public void setDelivered(boolean delivered) { this.delivered = delivered; }
+    public boolean isDelivered() {
+        return delivered;
+    }
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
 
     @Override
     public String toString() {
