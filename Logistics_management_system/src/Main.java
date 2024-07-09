@@ -1,8 +1,10 @@
 import java.util.Date;
 import java.util.Scanner;
 
+import static java.lang.Thread.sleep;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         OrderManager orderManager = new OrderManager();
         DatabaseManager dbManager = new DatabaseManager();
         ItemManager itemManager = new ItemManager(dbManager);
@@ -22,7 +24,8 @@ public class Main {
             System.out.println("5. 显示所有订单");
             System.out.println("6. 保存订单到文件");
             System.out.println("7. 从文件加载订单");
-            System.out.println("8. 退出");
+            System.out.println("8. 服务器to客户端");
+            System.out.println("9. 退出");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
@@ -89,9 +92,12 @@ public class Main {
                         server.start();
                     }).start();
                     // 启动客户端线程
-                    new Thread(() -> {
+                    for(int i=0;i<3;i++) {
+                        sleep(1000);
+                        new Thread(() -> {
                         Client client = new Client();
-                    }).start();
+                            }).start();
+                    }
                 case 9:
                     exit = true;
                     break;
