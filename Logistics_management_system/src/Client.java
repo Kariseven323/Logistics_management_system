@@ -20,12 +20,23 @@ public class Client {
         System.out.println("Server response: " + in.readLine());
     }
 
+    public void closeConnection() {
+        try {
+            in.close();
+            out.close();
+            clientSocket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         try {
-            Client client = new Client("localhost", 12345);
+            Client client = new Client("127.0.0.1", 12345);
             client.sendCommand("add", "101");
             client.sendCommand("update", "101");
             client.sendCommand("remove", "101");
+            client.closeConnection();
         } catch (Exception e) {
             e.printStackTrace();
         }
