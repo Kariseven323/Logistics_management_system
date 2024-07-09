@@ -27,7 +27,7 @@ public class OrderManager {
 
     public void printOrders() {
         for (LogisticsOrder order : orders) {
-            System.out.println();
+            System.out.println(order); // 确保 LogisticsOrder 类有合适的 toString() 方法
         }
     }
 
@@ -51,3 +51,4 @@ public class OrderManager {
         return orders;
     }
 }
+

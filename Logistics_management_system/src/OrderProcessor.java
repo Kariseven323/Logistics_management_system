@@ -1,3 +1,4 @@
+
 public class OrderProcessor implements Runnable {
     private OrderManager orderManager;
     private String operation;
@@ -13,7 +14,7 @@ public class OrderProcessor implements Runnable {
     public void run() {
         switch (operation) {
             case "add":
-                LogisticsOrder newOrder = new LogisticsOrder(orderID, "Customer " + orderID, "Address " + orderID, new java.util.Date(), Math.random() * 1000, false);
+                LogisticsOrder newOrder = new LogisticsOrder(orderID, "客户 " + orderID, "地址 " + orderID, new java.util.Date(), Math.random() * 1000, false);
                 orderManager.addOrder(newOrder);
                 break;
             case "update":
@@ -23,7 +24,7 @@ public class OrderProcessor implements Runnable {
                 orderManager.removeOrder(orderID);
                 break;
             default:
-                System.out.println("Unknown operation: " + operation);
+                System.out.println("未知操作: " + operation);
         }
     }
 }
