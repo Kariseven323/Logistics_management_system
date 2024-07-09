@@ -52,15 +52,4 @@ public class item {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    @Override
-    public String toString() {
-        return "item{" +
-                "商品ID='" + itemID + '\'' +
-                ", 商品名称='" + name + '\'' +
-                ", 重量=" + weight +
-                ", 体积=" + dimensions +
-                ", 价格=" + price +
-                '}';
-    }
 }

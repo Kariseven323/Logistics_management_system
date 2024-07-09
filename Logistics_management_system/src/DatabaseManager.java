@@ -17,10 +17,6 @@ public class DatabaseManager {
         }
     }
 
-    public Connection getConnection() {
-        return this.connection;
-    }
-
     public void close() {
         try {
             if (this.connection != null && !this.connection.isClosed()) {
