@@ -1,6 +1,9 @@
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author ZSH
+ */
 public class LogisticsOrder implements Serializable {
     private static final long serialVersionUID = 1L;
     private String orderID;
@@ -41,7 +44,7 @@ public class LogisticsOrder implements Serializable {
     @Override
     public String toString() {
         return "物流订单{" +
-                "订单ID='" + orderID + '\'' +
+                "订单的ID='" + orderID + '\'' +
                 ", 客户='" + customerName + '\'' +
                 ", 地址='" + address + '\'' +
                 ", 订单日期=" + orderDate +
