@@ -5,7 +5,7 @@ public class Main {
         OrderManager orderManager = new OrderManager();
         DatabaseManager dbManager = new DatabaseManager();
 
-        dbManager.loadOrdersFromDatabase(orderManager);
+        //dbManager.loadOrdersFromDatabase(orderManager);
 
         Scanner scanner = new Scanner(System.in);
         boolean exit = false;
