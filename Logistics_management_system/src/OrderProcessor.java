@@ -1,4 +1,3 @@
-
 public class OrderProcessor implements Runnable {
     private OrderManager orderManager;
     private String operation;
