@@ -1,6 +1,4 @@
-/**
- * @author ZSH
- */
+
 public class OrderProcessor implements Runnable {
     private OrderManager orderManager;
     private String operation;
@@ -18,7 +16,7 @@ public class OrderProcessor implements Runnable {
             case "add":
                 LogisticsOrder newOrder = new LogisticsOrder(orderID, "Customer " + orderID, "Address " + orderID, new java.util.Date(), Math.random() * 1000, false);
                 orderManager.addOrder(newOrder);
-                break;
+                break
             case "update":
                 orderManager.updateOrder(orderID, true);
                 break;
