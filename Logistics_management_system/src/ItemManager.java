@@ -49,7 +49,7 @@ public class ItemManager {
         try (PreparedStatement pstmt = dbManager.getConnection().prepareStatement(sql)) {
             pstmt.setString(1, id);
             pstmt.executeUpdate();
-            System.out.println("商品已删除：" + id);
+            System.out.println("商品已删除！：" + id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
