@@ -27,7 +27,7 @@ public class OrderManager {
 
     public void printOrders() {
         for (LogisticsOrder order : orders) {
-            System.out.println(order);
+            System.out.println();
         }
     }
 
